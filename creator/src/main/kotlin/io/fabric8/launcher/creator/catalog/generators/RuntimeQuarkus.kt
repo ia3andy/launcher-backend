@@ -4,7 +4,13 @@ import io.fabric8.launcher.creator.core.*
 import io.fabric8.launcher.creator.core.catalog.BaseGenerator
 import io.fabric8.launcher.creator.core.catalog.CatalogItemContext
 import io.fabric8.launcher.creator.core.catalog.enumItemNN
-import io.fabric8.launcher.creator.core.resource.*
+import io.fabric8.launcher.creator.core.resource.BUILDER_JAVA
+import io.fabric8.launcher.creator.core.resource.Resources
+import io.quarkus.cli.commands.AddExtensions
+import io.quarkus.cli.commands.CreateProject
+import io.quarkus.cli.commands.writer.FileProjectWriter
+import java.io.IOException
+
 
 interface RuntimeQuarkusProps : LanguageJavaProps, MavenSetupProps {
     val runtime: Runtime
@@ -39,13 +45,21 @@ class RuntimeQuarkus(ctx: CatalogItemContext) : BaseGenerator(ctx) {
 
         // Check if the service already exists, so we don't create it twice
         if (resources.service(pqprops.serviceName) == null) {
-            generator(::RuntimeBaseSupport).apply(resources, pqprops, extra)
-            copy()
+            val writer = FileProjectWriter(this.targetDir.toFile())
+            writer.use {
+                println(pqprops.maven)
+                val success = CreateProject(writer)
+                    .groupId(pqprops.maven.groupId)
+                    .artifactId(pqprops.maven.artifactId)
+                    .doCreateProject(mutableMapOf())
+                if(!success) {
+                    throw IOException("Error during Quarkus project creation")
+                }
+                AddExtensions(writer, "pom.xml")
+                    .addExtensions(mutableSetOf("kotlin"))
+            }
         }
-        generator(::LanguageJava).apply(resources, lprops, extra)
-        setMemoryLimit(resources, "512Mi", pqprops.serviceName)
-        setDefaultHealthChecks(resources, pqprops.serviceName)
-        generator(::MavenSetup).apply(resources, lprops, extra)
+        //generator(::LanguageJava).apply(resources, lprops, extra)
 
         val exProps = propsOf(
                 "image" to BUILDER_JAVA,

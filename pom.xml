@@ -67,6 +67,7 @@
     <module>services/openshift-service-api</module>
     <module>services/openshift-service-impl</module>
     <module>creator</module>
+    <module>launcher-quarkus</module>
     <module>web</module>
   </modules>
 
@@ -111,6 +112,11 @@
       <dependency>
         <groupId>io.fabric8.launcher</groupId>
         <artifactId>launcher-service-git-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.fabric8.launcher</groupId>
+        <artifactId>creator</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
