@@ -26,5 +26,5 @@ class QuarkusProject {
     val packageName: String? = null
 
     @QueryParam("dependencies")
-    val dependencies: List<String> = listOf()
+    val dependencies: Set<String> = mutableSetOf()
 }

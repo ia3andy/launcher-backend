@@ -334,10 +334,27 @@ interface MavenCoords : BaseProperties {
             BaseProperties.build(::Data, _map, block)
     }
 
-    class Data(map: Properties = propsOf()) : BaseProperties.Data(map), MavenCoords {
+    open class Data(map: Properties = propsOf()) : BaseProperties.Data(map), MavenCoords {
         override var groupId: String by _map
         override var artifactId: String by _map
         override var version: String by _map
+    }
+}
+
+interface ExtendedMavenCoords : MavenCoords {
+    val description: String
+    val packageName: String
+    val dependencies: Set<String>
+
+    companion object {
+        fun build(_map: Properties = propsOf(), block: Data.() -> Unit = {}) =
+            BaseProperties.build(::Data, _map, block)
+    }
+
+    class Data(map: Properties = propsOf()) : MavenCoords.Data(map), ExtendedMavenCoords {
+        override var description: String by _map
+        override var packageName: String by _map
+        override var dependencies: Set<String> by _map
     }
 }
 

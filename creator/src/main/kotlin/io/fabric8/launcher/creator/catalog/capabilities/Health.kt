@@ -24,9 +24,9 @@ class Health(ctx: CatalogItemContext) : BaseCapability(ctx) {
             "serviceName" to rtServiceName,
             "routeName" to rtRouteName,
             "runtime" to rt,
-            "maven" to props["maven"]?.let { MavenCoords.build(it as Properties) },
-            "nodejs" to props["nodejs"]?.let { NodejsCoords.build(it as Properties) },
-            "dotnet" to props["dotnet"]?.let { DotnetCoords.build(it as Properties) }
+            "maven" to props["maven"],
+            "nodejs" to props["nodejs"],
+            "dotnet" to props["dotnet"]
         )
         return generator(runtimeByType(rt)).apply(resources, rtprops, extra)
     }

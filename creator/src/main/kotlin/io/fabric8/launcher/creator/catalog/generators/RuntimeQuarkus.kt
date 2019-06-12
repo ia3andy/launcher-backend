@@ -12,8 +12,9 @@ import io.quarkus.cli.commands.writer.FileProjectWriter
 import java.io.IOException
 
 
-interface RuntimeQuarkusProps : LanguageJavaProps, MavenSetupProps {
+interface RuntimeQuarkusProps : LanguageJavaProps {
     val runtime: Runtime
+    val maven: ExtendedMavenCoords
 
     companion object {
         fun build(_map: Properties = propsOf(), block: Data.() -> Unit = {}) =
@@ -22,7 +23,7 @@ interface RuntimeQuarkusProps : LanguageJavaProps, MavenSetupProps {
 
     open class Data(map: Properties = propsOf()) : LanguageJavaProps.Data(map), RuntimeQuarkusProps {
         override val runtime: Runtime by _map
-        override var maven: MavenCoords by _map
+        override var maven: ExtendedMavenCoords by _map
     }
 }
 
@@ -51,12 +52,13 @@ class RuntimeQuarkus(ctx: CatalogItemContext) : BaseGenerator(ctx) {
                 val success = CreateProject(writer)
                     .groupId(pqprops.maven.groupId)
                     .artifactId(pqprops.maven.artifactId)
+                    .className("${pqprops.maven.packageName}.QuarkusApp")
                     .doCreateProject(mutableMapOf())
                 if(!success) {
                     throw IOException("Error during Quarkus project creation")
                 }
                 AddExtensions(writer, "pom.xml")
-                    .addExtensions(mutableSetOf("kotlin"))
+                    .addExtensions(pqprops.maven.dependencies)
             }
         }
         //generator(::LanguageJava).apply(resources, lprops, extra)

@@ -1,9 +1,11 @@
 package io.fabric8.launcher.quarkus
 
 import io.fabric8.launcher.base.Paths
+import io.fabric8.launcher.creator.core.ExtendedMavenCoords
 import io.fabric8.launcher.creator.core.Runtime
 import io.fabric8.launcher.creator.core.deploy.*
 import io.fabric8.launcher.creator.core.propsOf
+import io.fabric8.launcher.creator.core.propsOfNN
 import io.fabric8.launcher.quarkus.model.QuarkusProject
 import javax.validation.Valid
 import javax.ws.rs.BeanParam
@@ -23,10 +25,17 @@ class LauncherQuarkus {
             applications = mutableListOf(ApplicationDescriptor.build {
                 application = params.name!!
                 parts = mutableListOf(PartDescriptor.build {
-                    shared = propsOf(
+                    shared = propsOfNN(
                         "runtime" to Runtime.build {
                             name = "quarkus"
                             version = "community"
+                        },
+                        "maven" to ExtendedMavenCoords.build {
+                            artifactId = params.artifactId!!
+                            groupId = params.groupId!!
+                            description = params.description!!
+                            packageName = params.packageName!!
+                            dependencies = params.dependencies
                         }
                     )
                     capabilities = mutableListOf(CapabilityDescriptor.build { module = "health" })
