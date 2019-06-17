@@ -31,8 +31,8 @@ export function NextSteps(props: NextStepsProps) {
        
         <Text component={TextVariants.h3}>What's next!</Text>
         <Text component={TextVariants.p}>
-        Unzip the project and start playing with Quarkus.<br />
-        You can follow the&nbsp;<ExternalLink href="https://quarkus.io/guides/" aria-label="Start playing with Quarkus">guides</ExternalLink> to learn more and build a great Quarkus app!
+        Unzip the project and start playing with Quarkus. You can follow the <ExternalLink href="https://quarkus.io/guides/" aria-label="Start playing with Quarkus">Quarkus guides</ExternalLink> 
+        to learn more and build a great Quarkus app!
         </Text>
       </TextContent>
     </FixedModal>

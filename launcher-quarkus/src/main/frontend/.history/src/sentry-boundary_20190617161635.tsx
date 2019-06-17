@@ -2,7 +2,6 @@ import * as Sentry from '@sentry/browser';
 import * as React from 'react';
 import { Component, ErrorInfo } from 'react';
 import { sentryDsn } from './app/config';
-import { Button } from '@patternfly/react-core';
 
 if (sentryDsn) {
   console.info('Sentry is enabled');
@@ -35,7 +34,7 @@ export class SentryBoundary extends Component<{}, { error?: Error }> {
   public render() {
     if (this.state.error) {
       return (
-        <Button onClick={() => Sentry.showReportDialog()}>Report feedback</Button>
+        <a onClick={() => Sentry.showReportDialog()} href="#">Report feedback</a>
       );
     } else {
       return this.props.children;

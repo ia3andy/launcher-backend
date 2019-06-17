@@ -1,6 +1,8 @@
-import { ExternalLink, FixedModal } from '@launcher/component';
-import { Button, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import React, { useState } from 'react';
+import { Button, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { DownloadIcon, CodeIcon } from '@patternfly/react-icons';
+import { ExternalLink } from '@launcher/component';
+import { FixedModal } from '@launcher/component';
 
 interface NextStepsProps {
   downloadLink?: string;
@@ -25,15 +27,18 @@ export function NextSteps(props: NextStepsProps) {
       <TextContent>
         <Text component={TextVariants.h3}>Your new Quarkus app has been generated</Text>
         <Text component={TextVariants.p}>
-          Your download should start shortly. If it doesn't, please use the&nbsp;
-           <ExternalLink href={props.downloadLink as string} aria-label="Download link">direct link</ExternalLink>
+          Your download should start shortly. If it doesn't, please use the
         </Text>
-       
+        <ExternalLink href={props.downloadLink as string} aria-label="Download link">
+          <DownloadIcon /> Direct link
+        </ExternalLink>
         <Text component={TextVariants.h3}>What's next!</Text>
         <Text component={TextVariants.p}>
-        Unzip the project and start playing with Quarkus.<br />
-        You can follow the&nbsp;<ExternalLink href="https://quarkus.io/guides/" aria-label="Start playing with Quarkus">guides</ExternalLink> to learn more and build a great Quarkus app!
+        Unzip the project and start playing with Quarkus. You can follow the Quarkus guides to learn more and build a great Quarkus app!
         </Text>
+        <ExternalLink href="https://quarkus.io/guides/" aria-label="Start playing with Quarkus">
+          <CodeIcon /> Quarkus coding guides
+        </ExternalLink>
       </TextContent>
     </FixedModal>
   );

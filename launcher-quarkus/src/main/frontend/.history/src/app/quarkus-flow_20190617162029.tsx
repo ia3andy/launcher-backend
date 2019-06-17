@@ -4,7 +4,6 @@ import { ProcessingApp } from '@launcher/component';
 import { QuarkusForm, QuarkusProject } from './quarkus-form';
 import { NextSteps } from './next-steps';
 import { stringify } from 'querystring';
-import { publicUrl } from './config';
 
 enum Status {
   EDITION = 'EDITION', RUNNING = 'RUNNING', COMPLETED = 'COMPLETED', ERROR = 'ERROR', DOWNLOADED = 'DOWNLOADED'
@@ -26,8 +25,8 @@ async function downloadProject(project: QuarkusProject): Promise<{ downloadLink:
     ...project.metadata,
     dependencies: project.dependencies
   }
-  const downloadLink = `${publicUrl}/api/quarkus/download?${stringify(params)}`;
-  window.open(downloadLink, '_blank');
+  const downloadLink = `/api/quarkus/download?${stringify(params)}`;
+  window.open(downloadLink);
   return { downloadLink };
 }
 

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { StatusMessage } from '@launcher/client';
+import { useLauncherClient } from '@launcher/component';
 import { ProcessingApp } from '@launcher/component';
 import { QuarkusForm, QuarkusProject } from './quarkus-form';
 import { NextSteps } from './next-steps';
-import { stringify } from 'querystring';
-import { publicUrl } from './config';
 
 enum Status {
   EDITION = 'EDITION', RUNNING = 'RUNNING', COMPLETED = 'COMPLETED', ERROR = 'ERROR', DOWNLOADED = 'DOWNLOADED'
@@ -21,15 +20,12 @@ interface LaunchFlowProps {
 
 }
 
-async function downloadProject(project: QuarkusProject): Promise<{ downloadLink: string }> {
-  const params = {
-    ...project.metadata,
-    dependencies: project.dependencies
-  }
-  const downloadLink = `${publicUrl}/api/quarkus/download?${stringify(params)}`;
-  window.open(downloadLink, '_blank');
-  return { downloadLink };
+async function download(project: QuarkusProject): Promise<{ downloadLink: string }> {
+  return {
+    downloadLink: "..."
+  };
 }
+
 
 export function QuarkusFlow(props: LaunchFlowProps) {
   const [run, setRun] = useState<RunState>({ status: Status.EDITION, statusMessages: [] });
@@ -40,7 +36,7 @@ export function QuarkusFlow(props: LaunchFlowProps) {
   const download = (project: any) => {
     setRun({ status: Status.RUNNING, statusMessages: [] });
 
-    downloadProject(project).then((result) => {
+    download(project).then((result) => {
       setRun((prev) => ({ ...prev, result, status: Status.DOWNLOADED }));
     }).catch(error => {
       setRun((prev) => ({ ...prev, status: Status.ERROR, error }));

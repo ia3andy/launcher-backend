@@ -1,13 +1,14 @@
-import { DependenciesPicker, DependencyItem, MavenSettingsPicker, Separator } from '@launcher/component';
+import { DependenciesPicker, EnumLoader, MavenSettingsPicker, DependencyItem, Separator } from '@launcher/component';
+import React, { useState, Fragment } from 'react';
 import { Button } from '@patternfly/react-core';
-import React, { Fragment, useState } from 'react';
 import { HotKeys } from 'react-hotkeys';
 import { DependencyListPicker } from './dependency-list-picker';
-import { ExtensionsLoader } from './extensions-loader';
 
 interface QuarkusFormProps {
   onSave: (project: QuarkusProject) => void;
 }
+
+const validator = () => true;
 
 export interface QuarkusProject {
   metadata: {
@@ -27,12 +28,12 @@ export function QuarkusForm(props: QuarkusFormProps) {
 
   const [project, setProject] = useState<QuarkusProject>({
     metadata: {
-      groupId: 'org.example',
+      groupId: 'com.example',
       artifactId: 'quarkus-app',
       version: 'latest',
       name: 'quarkus-app',
       description: 'My application with Quarkus',
-      packageName: 'org.example.quarkus-app',
+      packageName: 'com.example.quarkus-app',
     },
     dependencies: [],
   });
@@ -62,7 +63,7 @@ export function QuarkusForm(props: QuarkusFormProps) {
           </div>
         </div>
         <div className="row">
-          <ExtensionsLoader name="quarkus-extensions">
+          <EnumLoader name="quarkus-extensions">
             {extensions => (
               <Fragment>
                 <div className="header">
@@ -86,7 +87,7 @@ export function QuarkusForm(props: QuarkusFormProps) {
                 </div>
               </Fragment>
             )}
-          </ExtensionsLoader>
+          </EnumLoader>
         </div>
         <div className="row footer">
           <div className="header"></div>

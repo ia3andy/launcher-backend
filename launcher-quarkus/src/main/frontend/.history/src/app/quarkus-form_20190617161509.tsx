@@ -9,6 +9,8 @@ interface QuarkusFormProps {
   onSave: (project: QuarkusProject) => void;
 }
 
+const validator = () => true;
+
 export interface QuarkusProject {
   metadata: {
     groupId: string;

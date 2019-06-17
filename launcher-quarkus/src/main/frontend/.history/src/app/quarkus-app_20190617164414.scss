@@ -1,10 +1,11 @@
 .launcher-container {
   background-color: #EDEDED;
   padding: 20px 20px 100px;
-}
 
-.pf-c-button.pf-m-link {
-  padding: 0 0px;
+  .pf-c-button .pf-m-link {
+    padding: 0 5px;
+  }
+
 }
 
 body {

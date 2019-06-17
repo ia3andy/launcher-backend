@@ -1,6 +1,6 @@
-import { DependenciesPicker, DependencyItem, MavenSettingsPicker, Separator } from '@launcher/component';
+import { DependenciesPicker, MavenSettingsPicker, DependencyItem, Separator } from '@launcher/component';
+import React, { useState, Fragment } from 'react';
 import { Button } from '@patternfly/react-core';
-import React, { Fragment, useState } from 'react';
 import { HotKeys } from 'react-hotkeys';
 import { DependencyListPicker } from './dependency-list-picker';
 import { ExtensionsLoader } from './extensions-loader';
@@ -8,6 +8,8 @@ import { ExtensionsLoader } from './extensions-loader';
 interface QuarkusFormProps {
   onSave: (project: QuarkusProject) => void;
 }
+
+const validator = () => true;
 
 export interface QuarkusProject {
   metadata: {
